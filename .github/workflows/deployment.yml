@@ -73,7 +73,7 @@ jobs:
         with:
           files: './app/appsettings.json'
         env:
-          AppConfig.envName: deployed-on-${{ inputs.env_name }}
+          AppConfig.envName: branch-deployed-on-${{ inputs.env_name }}
 
       - name: Publish Artifacts
         uses: actions/upload-artifact@v1.0.0
