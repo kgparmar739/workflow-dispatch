@@ -2,9 +2,8 @@ name: deploy-sit
 
 on:
   workflow_run:
-    workflows: [deploy-ftr]
-    types:
-      - completed
+    workflows: [deploy-ftr,CI]
+    types: [completed]
 
 jobs:
 

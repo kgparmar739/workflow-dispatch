@@ -3,8 +3,7 @@ name: rollback-sit
 on:
   workflow_run:
     workflows: [deploy-sit]
-    types:
-      - completed
+    types: [completed]
 
 jobs:
 

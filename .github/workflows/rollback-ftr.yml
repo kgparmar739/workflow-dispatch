@@ -3,8 +3,7 @@ name: rollback-ftr
 on:
   workflow_run:
     workflows: [deploy-ftr]
-    types:
-      - completed
+    types: [completed]
 
 jobs:
 
