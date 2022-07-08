@@ -1,0 +1,35 @@
+name: rollback
+
+on:
+  workflow_call:
+    inputs:
+      env_name:
+        required: true
+        type: string
+     
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    
+    env:
+      ENV_FILE: params/${{ inputs.env_name }}.env
+
+    steps:
+    
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Display environment file variable values
+        id: envfile-contents
+        shell: bash
+        run: |
+          cat ${{ env.ENV_FILE }}
+
+      - name: Import environment variables from a file
+        id: import-env
+        shell: bash
+        run: |
+          while read line; do
+            echo "$line" >> $GITHUB_ENV
+          done < ${{ env.ENV_FILE }}

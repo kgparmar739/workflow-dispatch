@@ -1,0 +1,16 @@
+name: deploy-ftr
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
+
+jobs:
+
+  deploy-ftr:
+    uses: kgparmar739/workflow-dispatch/.github/workflows/template/deployment.yml@main
+    with:
+      env_name: ftr
+      ci_workflow_run_id: context.payload.workflow_run.id
+  
