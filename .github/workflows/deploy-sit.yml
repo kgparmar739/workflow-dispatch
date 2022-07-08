@@ -3,7 +3,6 @@ name: deploy-sit
 on:
   workflow_run:
     workflows: [deploy-int]
-    branches: [main]
     types:
       - completed
 

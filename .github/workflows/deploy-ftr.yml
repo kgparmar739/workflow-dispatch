@@ -3,7 +3,6 @@ name: deploy-ftr
 on:
   workflow_run:
     workflows: [CI]
-    branches: [features/*]
     types:
       - completed
 
