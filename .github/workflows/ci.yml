@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:        
-      - name: Save PR number
-        env:
-          PR_NUMBER: ${{ github.event.number }}
-        run: |
-          mkdir -p ./pr
-          echo $PR_NUMBER > ./pr/pr_number
-      - uses: actions/upload-artifact@v3
+      - uses: actions/checkout@v3
         with:
-          name: pr_number
-          path: pr/
+          fetch-depth: 0
+
+      - name: Publish Artifacts
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: webapp
+          path: ${{ github.workspace }}
