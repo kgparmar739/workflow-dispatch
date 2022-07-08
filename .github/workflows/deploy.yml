@@ -8,9 +8,14 @@ on:
 
 jobs:
 
-  call-deployment:
+  deploy-ftr:
     uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml@main
     with:
       env_name: ftr
       ci_workflow_run_id: context.payload.workflow_run.id
   
+  deploy-int:
+    uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml@main
+    with:
+      env_name: int
+      ci_workflow_run_id: context.payload.workflow_run.id
