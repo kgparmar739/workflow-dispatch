@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [CI]
     types:
-      - requested
+      - completed
 
 jobs:
   download:
@@ -30,6 +30,10 @@ jobs:
             });
             let fs = require('fs');
             fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/webapp.zip`, Buffer.from(download.data));
+
+      - name: Save PR number
+        run: |
+          mkdir -p ./app
 
       - name: 'Unzip artifact'
         run: unzip webapp.zip -d /app
