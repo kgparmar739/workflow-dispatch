@@ -34,9 +34,9 @@ jobs:
             let fs = require('fs');
             fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/webapp.zip`, Buffer.from(download.data));
 
-      # - name: Save PR number
-      #   run: |
-      #     mkdir -p ./app
+      - name: echo
+        run: |
+          echo ${{ github.workspace }}
 
       - name: 'Unzip artifact'
         run: unzip webapp.zip -d ${{ github.workspace }}/app
