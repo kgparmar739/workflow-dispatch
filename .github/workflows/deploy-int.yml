@@ -9,8 +9,6 @@ on:
 jobs:
 
   deploy-int:
-    environment:
-      name: int
     uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml@main
     with:
       env_name: int

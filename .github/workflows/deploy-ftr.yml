@@ -9,8 +9,6 @@ on:
 jobs:
 
   deploy-ftr:
-    environment:
-      name: ftr
     uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml@main
     with:
       env_name: ftr

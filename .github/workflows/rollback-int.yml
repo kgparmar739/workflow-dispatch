@@ -9,8 +9,6 @@ on:
 jobs:
 
   rollback-int:
-    environment:
-      name: int
     uses: kgparmar739/workflow-dispatch/.github/workflows/rollback.yml@main
     with:
       env_name: int

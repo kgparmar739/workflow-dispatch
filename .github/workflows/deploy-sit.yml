@@ -9,8 +9,6 @@ on:
 jobs:
 
   deploy-sit:
-    environment:
-      name: sit
     uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml@main
     with:
       env_name: sit

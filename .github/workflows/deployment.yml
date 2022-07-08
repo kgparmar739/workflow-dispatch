@@ -15,6 +15,9 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     
+    environment:
+      name: ${{ inputs.env_name }}
+    
     env:
       ENV_FILE: params/${{ inputs.env_name }}.env
 
