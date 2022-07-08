@@ -9,6 +9,6 @@ on:
 jobs:
 
   deploy-ftr:
-    uses: kgparmar739/workflow-dispatch/.github/workflows/template/rollback.yml@main
+    uses: kgparmar739/workflow-dispatch/.github/workflows/rollback.yml@main
     with:
       env_name: ftr
