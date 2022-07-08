@@ -71,7 +71,7 @@ jobs:
       - name: Update appsetting file
         uses: microsoft/variable-substitution@v1 
         with:
-          files: './app/params/appsettings.json'
+          files: './app/appsettings.json'
         env:
           AppConfig.envName: ${{ env.envName }}
 
