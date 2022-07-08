@@ -9,7 +9,7 @@ on:
 jobs:
 
   call-deployment:
-    uses: .github/workflows/deployment.yml@main
+    uses: ./github/workflows/deployment.yml@main
     with:
       env_name: ftr
     secrets:
