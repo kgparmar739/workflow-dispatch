@@ -19,6 +19,11 @@ jobs:
       ENV_FILE: params/${{ inputs.env_name }}.env
 
     steps:
+    
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name : echo inputs values
         run: echo ${{ inputs.env_name }} ${{ inputs.ci_workflow_run_id }} 
       
