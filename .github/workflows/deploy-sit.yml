@@ -2,13 +2,13 @@ name: deploy-sit
 
 on:
   workflow_run:
-    workflows: [deploy-sit]
+    workflows: [deploy-ftr]
     types:
       - completed
 
 jobs:
 
-  deploy-ftr:
+  deploy-sit:
     uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml@main
     with:
       env_name: sit
