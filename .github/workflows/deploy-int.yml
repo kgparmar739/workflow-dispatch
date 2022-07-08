@@ -3,6 +3,7 @@ name: deploy-int
 on:
   workflow_run:
     workflows: [deploy-ftr]
+    branches: [main]
     types:
       - completed
 

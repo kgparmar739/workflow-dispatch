@@ -3,6 +3,7 @@ name: rollback-int
 on:
   workflow_run:
     workflows: [deploy-int]
+    branches: [main]
     types:
       - completed
 

@@ -3,6 +3,7 @@ name: rollback-sit
 on:
   workflow_run:
     workflows: [deploy-sit]
+    branches: [main]
     types:
       - completed
 
