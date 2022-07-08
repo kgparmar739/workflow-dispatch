@@ -1,16 +1,16 @@
-name: rollback-sit
+name: rollback-int
 
 on:
   workflow_run:
-    workflows: [deploy-sit]
+    workflows: [deploy-int]
     types:
       - completed
 
 jobs:
 
-  rollback-sit:
+  rollback-int:
     environment:
-      name: sit
+      name: int
     uses: kgparmar739/workflow-dispatch/.github/workflows/rollback.yml@main
     with:
-      env_name: sit
+      env_name: int
