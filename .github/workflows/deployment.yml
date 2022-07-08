@@ -66,6 +66,9 @@ jobs:
           done < ${{ env.ENV_FILE }}
 
   verfication:
+  
+    needs: [deployment]
+
     runs-on: ubuntu-latest
     
     env:
@@ -81,6 +84,9 @@ jobs:
         run: echo verfication!! 
 
   cutover:
+
+    needs: [verfication]
+
     runs-on: ubuntu-latest
     
     env:
