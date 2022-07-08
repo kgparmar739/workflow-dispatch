@@ -1,14 +1,14 @@
-name: rollback-ftr
+name: rollback-sit
 
 on:
   workflow_run:
-    workflows: [deploy-ftr]
+    workflows: [deploy-sit]
     types:
       - completed
 
 jobs:
 
-  rollback-ftr:
+  rollback-sit:
     uses: kgparmar739/workflow-dispatch/.github/workflows/rollback.yml@main
     with:
-      env_name: ftr
+      env_name: sit

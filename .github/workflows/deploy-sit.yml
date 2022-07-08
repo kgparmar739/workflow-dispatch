@@ -1,15 +1,15 @@
-name: deploy-ftr
+name: deploy-sit
 
 on:
   workflow_run:
-    workflows: [deploy-ftr]
+    workflows: [deploy-sit]
     types:
       - completed
 
 jobs:
 
   deploy-ftr:
-    uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml@main
+    uses: kgparmar739/workflow-dispatch/.github/workflows/deployment.yml
     with:
       env_name: sit
       ci_workflow_run_id: context.payload.workflow_run.id
