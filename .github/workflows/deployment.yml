@@ -68,6 +68,19 @@ jobs:
             echo "$line" >> $GITHUB_ENV
           done < ${{ env.ENV_FILE }}
 
+      - name: Update appsetting file
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: './app/params/appsettings.json'
+        env:
+          AppConfig.envName: ${{ env.envName }}
+
+      - name: Publish Artifacts
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: webapp
+          path: ${{ github.workspace }}/app
+
   verfication:
   
     needs: [deployment]
