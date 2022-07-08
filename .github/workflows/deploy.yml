@@ -1,45 +1,57 @@
 name: deploy
 
 on:
-  pull_request:
-    branches: [ "main" ]
-    
   workflow_run:
     workflows: [CI]
     types:
       - completed
 
 jobs:
-  download:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Download artifact'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: context.payload.workflow_run.id,
-            });
-            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "webapp"
-            })[0];
-            let download = await github.rest.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
-            let fs = require('fs');
-            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/webapp.zip`, Buffer.from(download.data));
 
-      # - name: Save PR number
-      #   run: |
-      #     mkdir -p ./app
+  call-deployment:
+    uses: .github/workflows/deployment.yml@main
+    with:
+      env_name: ftr
+    secrets:
+      ci_workflow_run_id: ${{ context.payload.workflow_run.id }}
+  
+  # deployment:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 'Download artifact'
+  #       uses: actions/github-script@v6
+  #       with:
+  #         script: |
+  #           let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+  #              owner: context.repo.owner,
+  #              repo: context.repo.repo,
+  #              run_id: context.payload.workflow_run.id,
+  #           });
+  #           let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+  #             return artifact.name == "webapp"
+  #           })[0];
+  #           let download = await github.rest.actions.downloadArtifact({
+  #              owner: context.repo.owner,
+  #              repo: context.repo.repo,
+  #              artifact_id: matchArtifact.id,
+  #              archive_format: 'zip',
+  #           });
+  #           let fs = require('fs');
+  #           fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/webapp.zip`, Buffer.from(download.data));
 
-      - name: 'Unzip artifact'
-        run: unzip webapp.zip -d ${{ github.workspace }}/app
+  #     - name: 'Unzip artifact'
+  #       run: unzip webapp.zip -d ${{ github.workspace }}/app
 
-      - name: 'Run Ls command'
-        run : ls -R ${{ github.workspace }}
+  #     - name: Display environment file variable values
+  #       id: envfile-contents
+  #       shell: bash
+  #       run: |
+  #         cat ${{ env.ENV_FILE }}
+
+  #     - name: Import environment variables from a file
+  #       id: import-env
+  #       shell: bash
+  #       run: |
+  #         while read line; do
+  #           echo "$line" >> $GITHUB_ENV
+  #         done < ${{ env.ENV_FILE }}
