@@ -32,7 +32,7 @@ jobs:
             fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/webapp.zip`, Buffer.from(download.data));
 
       - name: 'Unzip artifact'
-        run: unzip webapp.zip
+        run: unzip webapp.zip -d /app
 
       - name: 'Run Ls command'
         run : ls -R ${{ github.workspace }}
