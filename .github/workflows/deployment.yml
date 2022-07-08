@@ -103,6 +103,9 @@ jobs:
 
     needs: [verfication]
 
+    environment:
+      name: ${{ inputs.env_name }}
+      
     runs-on: ubuntu-latest
     
     env:
