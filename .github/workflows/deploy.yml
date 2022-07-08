@@ -13,7 +13,7 @@ jobs:
     with:
       env_name: ftr
     secrets:
-      ci_workflow_run_id: ${{ context.payload.workflow_run.id }}
+      ci_workflow_run_id: context.payload.workflow_run.id
   
   # deployment:
   #   runs-on: ubuntu-latest
