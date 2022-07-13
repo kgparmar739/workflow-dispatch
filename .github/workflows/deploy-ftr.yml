@@ -9,7 +9,7 @@ on:
 jobs:
 
   deploy-ftr:
-    uses: kgparmar739/workflow-dispatch/.github/templates/deployment.yml
+    uses: kgparmar739/workflow-dispatch/.github/templates/deployment.yml@main
     with:
       env_name: ftr
       ci_workflow_run_id: context.payload.workflow_run.id
