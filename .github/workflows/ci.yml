@@ -20,3 +20,37 @@ jobs:
         with:
           name: webapp
           path: ${{ github.workspace }}/params
+  
+  deploy-ftr:
+
+    if: ${{ always() && (needs.upload.result=='success') }}
+    needs: [upload]
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: ftr
+    
+    env:
+      ENV_FILE: params/ftr.env
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+  
+  deploy-int:
+  
+    if: ${{ always() && (needs.upload.result=='success') }}
+    needs: [upload]
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: int
+    
+    env:
+      ENV_FILE: params/int.env
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
