@@ -1,0 +1,117 @@
+name: deployment
+
+on:
+  workflow_call:
+    inputs:
+      env_name:
+        required: true
+        type: string
+
+      ci_workflow_run_id:
+        required: true
+        type: string
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: ${{ inputs.env_name }}
+    
+    env:
+      ENV_FILE: params/${{ inputs.env_name }}.env
+
+    steps:
+    
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name : echo inputs values
+        run: echo ${{ inputs.env_name }} ${{ inputs.ci_workflow_run_id }} 
+      
+      - name: 'Download artifact'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: ${{ inputs.ci_workflow_run_id }},
+            });
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "webapp"
+            })[0];
+            let download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            let fs = require('fs');
+            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/webapp.zip`, Buffer.from(download.data));
+
+      - name: 'Unzip artifact'
+        run: unzip webapp.zip -d ${{ github.workspace }}/app
+
+      - name: Display environment file variable values
+        id: envfile-contents
+        shell: bash
+        run: |
+          cat ${{ env.ENV_FILE }}
+
+      - name: Import environment variables from a file
+        id: import-env
+        shell: bash
+        run: |
+          while read line; do
+            echo "$line" >> $GITHUB_ENV
+          done < ${{ env.ENV_FILE }}
+
+      - name: Update appsetting file
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: './app/appsettings.json'
+        env:
+          AppConfig.envName: deployed-on-${{ inputs.env_name }}
+
+      - name: Publish Artifacts
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: webapp
+          path: ${{ github.workspace }}/app
+
+  verfication:
+  
+    needs: [deployment]
+
+    runs-on: ubuntu-latest
+    
+    env:
+      ENV_FILE: params/${{ inputs.env_name }}.env
+
+    steps:
+      
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: run
+        run: echo verfication!! 
+
+  cutover:
+
+    needs: [verfication]
+
+    environment:
+      name: ${{ inputs.env_name }}
+      
+    runs-on: ubuntu-latest
+    
+    env:
+      ENV_FILE: params/${{ inputs.env_name }}.env
+
+    steps:
+
+      - name: run
+        run: echo cutover!!
